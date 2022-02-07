@@ -6,10 +6,10 @@
             <!--Grid column-->
             <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
                 <h5 class="text-uppercase">Infos</h5>
-
-                <p>{{ "footer.infos.address"|trans }} : 250 Chem. de l'Aérodrome, 30000 Nîmes</p>
-                <p>{{ "footer.infos.phone"|trans }} : 04 11 94 00 10</p>
-                <p>{{ "footer.infos.inaug"|trans }} : 2012</p>
+                <p>{{ "footer.infos.name"|trans }} : {{ Organizer.name }}</p>
+                <p>{{ "footer.infos.address"|trans }} : {{ Organizer.address }}</p>
+                <p>{{ "footer.infos.phone"|trans }} : {{ Organizer.phoneNumber }}</p>
+                <p>{{ "footer.infos.inaug"|trans }} : {{ Organizer.inaugurationDate|date("Y") }}</p>
             </div>
             <!--Grid column-->
 

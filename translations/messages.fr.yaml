@@ -87,6 +87,7 @@ paginate:
 
 footer:
     infos:
+        name: Nom des Organisateurs
         address: Adresse
         phone: Téléphone
         inaug: Inauguration

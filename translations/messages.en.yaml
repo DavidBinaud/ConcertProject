@@ -84,6 +84,7 @@ paginate:
 
 footer:
     infos:
+        name: Organizer name
         address: Address
         phone: Phone number
         inaug: Inauguration Date
