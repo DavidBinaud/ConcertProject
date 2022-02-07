@@ -18,6 +18,7 @@ class ArtistType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $year = date("Y");
         $builder
             ->add('name', TextType::class,[
                 'label' => 'Nom'
@@ -28,7 +29,8 @@ class ArtistType extends AbstractType
             ])
             ->add('birthDate', DateType::class,[
                 'widget' => 'choice',
-                'required' => false
+                'required' => false,
+                'years' => range($year-50,$year+50)
             ])
             ->add('bands', EntityType::class, [
                 'class' => Band::class,

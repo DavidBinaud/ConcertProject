@@ -18,13 +18,15 @@ class BandType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $year = date("Y");
         $builder
             ->add('name', TextType::class,[
                 'label' => 'Nom'
             ])
             ->add('creationDate', DateType::class,[
                 'widget' => 'choice',
-                'required' => false
+                'required' => false,
+                'years' => range($year-50,$year+50)
             ])
             ->add('artists', EntityType::class, [
                 'class' => Artist::class,

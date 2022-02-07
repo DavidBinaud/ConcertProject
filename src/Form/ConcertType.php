@@ -19,12 +19,14 @@ class ConcertType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $year = date("Y");
         $builder
             ->add('name', TextType::class,[
                 'label' => 'Nom'
             ])
             ->add('date', DateTimeType::class, [
-                'widget' => 'choice'
+                'widget' => 'choice',
+                'years' => range($year-50,$year+50)
             ])
             ->add('capacity', IntegerType::class)
             ->add('bands', EntityType::class, [
