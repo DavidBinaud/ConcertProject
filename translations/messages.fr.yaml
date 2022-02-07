@@ -60,6 +60,9 @@ content:
             birthdate: date de naissance
         show:
             title: Tout les artistes
+            groups:
+                none: Il ne fait partie d'aucun groupe
+                list: Il fait partie des groupes suivants
 
     band:
         name: groupe

@@ -32,7 +32,7 @@
                 <div class="col-sm-3">
                     <div class="card">
                         {% if artist.pictureFilename %}
-                            <img src="{{ asset('images/artist' ~ artist.pictureFilename) }}" class="card-img-top" alt="Picture of {{ artist.name }}">
+                            <img src="{{ asset('images/artist/' ~ artist.pictureFilename) }}" class="card-img-top" alt="Picture of {{ artist.name }}">
                         {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ artist.name }}</h5>
@@ -47,7 +47,7 @@
 
 
         <div class="container px-4 py-5" id="custom-cards">
-            {% set next_concerts = band.concerts|filter(c => c.date|date('Y-m-d') > "now"|date('Y-m-d')) %}
+            {% set next_concerts = band.concerts|filter(c => c.date|date('Y-m-d') > "now"|date('Y-m-d'))|sort((a,b) => a.date|date('Y-m-d') <=> b.date|date('Y-m-d')) %}
             {% if next_concerts|length == 0 %}
                 <h2 class="pb-2 border-bottom">Aucun concert de prévu prochainement</h2>
             {% else %}

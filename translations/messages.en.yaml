@@ -60,7 +60,9 @@ content:
             birthdate: Birth date
         show:
             title: All the artists
-
+            groups:
+                none: He's not in a group
+                list: Here's the group the artist is a member of
     band:
         name: band
         plural: bands

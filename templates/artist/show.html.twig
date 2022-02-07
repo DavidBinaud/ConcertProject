@@ -9,27 +9,29 @@
             <img src="{{ asset("images/artist/#{artist.pictureFilename}") }}" class="img-fluid" alt="{{ artist.name }}_picture">
         {% endif %}
         <p>Son nom de scène est {{ artist.sceneName }}, il est né le {{ artist.birthDate|date('d-m-Y') }}</p>
-        {% if artist.bands|length > 0 %}
-            {% if artist.bands|length > 1 %}
-                <p>Il fait partie de ces groupes:</p>
-            {% else %}
-                <p>Il fait parti du groupe:</p>
-            {% endif %}
-            <div class="row">
-                {% for band in artist.bands %}
-                    <div class="col-sm-3">
-                        <div class="card">
-                            <img src="{{ asset('images/placeholderArtist.png') }}" class="card-img-top" alt="Picture of {{ band.name }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ band.name }}</h5>
-                                <a href="{{ path("band_show", {id: band.getId()}) }}" class="btn btn-primary">Voir le groupe</a>
+            <div class="container px-4 py-5" id="custom-cards">
+                {% if artist.bands|length == 0 %}
+                    <h2 class="pb-2 border-bottom">{{ "content.artist.show.groups.none"|trans }}</h2>
+                {% else %}
+                    <h2 class="pb-2 border-bottom">{{ "content.artist.show.groups.list"|trans }}</h2>
+                    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+                        {% for band in artist.bands %}
+                            <div class="col">
+                                <div class="card custom-card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg bg-primary" style="background-image: url('{% if band.pictureFilename %}{{ asset('images/band/' ~ band.pictureFilename) }}{% else %}{{ asset('images/band/' ~ band.id ~ '.jpg') }}{% endif %}');">
+                                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                        <a href="{{ path("band_show", {id: band.id}) }}"><h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ band.name }}</h2></a>
+                                        <ul class="d-flex list-unstyled mt-auto">
+                                            <li class="d-flex align-items-center">
+                                                <i class="bi bi-calendar3"></i>
+                                                <small>{{ band.creationDate|date('d-m-Y') }}</small>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+                {% endif %}
             </div>
-        {% else %}
-            <p>Cet artiste ne fait partie d'aucun groupe</p>
-        {% endif %}
     </div>
 {% endblock %}
