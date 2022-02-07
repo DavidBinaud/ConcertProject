@@ -5,8 +5,11 @@ namespace App\Controller;
 use App\Entity\Concert;
 use App\Form\ConcertType;
 use App\Repository\ConcertRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,13 +64,19 @@ class ConcertController extends AbstractController
      * @Route("/new", name="concert_new", methods={"GET", "POST"})
      * @isGranted("ROLE_ADMIN")
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,  FileUploader $fileUploader): Response
     {
         $concert = new Concert();
         $form = $this->createForm(ConcertType::class, $concert);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('picture')->getData();
+            if ($file) {
+                $pictureFileName = $fileUploader->upload($file, 'concert');
+                $concert->setPictureFilename($pictureFileName);
+            }
+
             $entityManager->persist($concert);
             $entityManager->flush();
 
@@ -94,13 +103,31 @@ class ConcertController extends AbstractController
      * @Route("/{id}/edit", name="concert_edit", methods={"GET", "POST"})
      * @isGranted("ROLE_ADMIN")
      */
-    public function edit(Request $request, Concert $concert, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Concert $concert, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(ConcertType::class, $concert);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('picture')->getData();
+            if ($file) {
+                $oldFilename = $concert->getPictureFilename();
+                $pictureFileName = $fileUploader->upload($file, 'concert');
+                $concert->setPictureFilename($pictureFileName);
+            }
+
             $entityManager->flush();
+
+            if ($file) {
+                $filesystem = new Filesystem();
+                if ($oldFilename){
+                    try {
+                        $filesystem->remove($this->getParameter('kernel.project_dir') . "/public/images/concert/$oldFilename");
+                    } catch (IOExceptionInterface $exception) {
+                        echo "An error occurred while deleting your file: " . $exception->getPath();
+                    }
+                }
+            }
 
             return $this->redirectToRoute('concert_index', [], Response::HTTP_SEE_OTHER);
         }

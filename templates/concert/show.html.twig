@@ -6,6 +6,10 @@
     <div>
         <h1>Concert</h1>
 
+        {% if concert.pictureFilename %}
+            <img src="{{ asset("images/concert/#{concert.pictureFilename}") }}" class="img-fluid" alt="{{ concert.name }}_picture">
+        {% endif %}
+
         <table class="table">
             <tbody>
                 <tr>

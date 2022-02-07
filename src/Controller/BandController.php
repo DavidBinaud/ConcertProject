@@ -9,6 +9,8 @@ use App\Repository\BandRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -79,18 +81,35 @@ class BandController extends AbstractController
      * @Route("/{id}/edit", name="band_edit", methods={"GET", "POST"})
      * @isGranted("ROLE_ADMIN")
      */
-    public function edit(Request $request, Band $band, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Band $band, EntityManagerInterface $entityManager,  FileUploader $fileUploader): Response
     {
         $form = $this->createForm(BandType::class, $band);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('picture')->getData();
+            if ($file) {
+                $oldFilename = $band->getPictureFilename();
+                $pictureFileName = $fileUploader->upload($file, 'band');
+                $band->setPictureFilename($pictureFileName);
+            }
+
             foreach ($form->get('concerts')->getData() as $concert){
                 $concert->addBand($band);
             }
 
 
             $entityManager->flush();
+
+            if ($file) {
+                $filesystem = new Filesystem();
+
+                try {
+                    $filesystem->remove($this->getParameter('kernel.project_dir') . "/public/images/band/$oldFilename");
+                } catch (IOExceptionInterface $exception) {
+                    echo "An error occurred while deleting your file: " . $exception->getPath();
+                }
+            }
 
             return $this->redirectToRoute('band_index', [], Response::HTTP_SEE_OTHER);
         }

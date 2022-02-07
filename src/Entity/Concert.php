@@ -52,6 +52,11 @@ class Concert
      */
     private $venue;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pictureFilename;
+
     public function __construct()
     {
         $this->bands = new ArrayCollection();
@@ -130,6 +135,18 @@ class Concert
     public function setVenue(?Venue $venue): self
     {
         $this->venue = $venue;
+
+        return $this;
+    }
+
+    public function getPictureFilename(): ?string
+    {
+        return $this->pictureFilename;
+    }
+
+    public function setPictureFilename(?string $pictureFilename): self
+    {
+        $this->pictureFilename = $pictureFilename;
 
         return $this;
     }

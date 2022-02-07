@@ -8,10 +8,12 @@ use App\Entity\Venue;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ConcertType extends AbstractType
 {
@@ -21,7 +23,9 @@ class ConcertType extends AbstractType
             ->add('name', TextType::class,[
                 'label' => 'Nom'
             ])
-            ->add('date', DateTimeType::class)
+            ->add('date', DateTimeType::class, [
+                'widget' => 'choice'
+            ])
             ->add('capacity', IntegerType::class)
             ->add('bands', EntityType::class, [
                 'class' => Band::class,
@@ -32,6 +36,28 @@ class ConcertType extends AbstractType
             ->add('venue',EntityType::class, [
                 'class' => Venue::class,
                 'choice_label' => 'name',
+            ])->add('picture', FileType::class, [
+                'label' => 'picture',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image, either a png or jpg',
+                    ])
+                ],
             ])
         ;
     }

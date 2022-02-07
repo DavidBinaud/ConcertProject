@@ -104,7 +104,7 @@ class ArtistController extends AbstractController
                 $filesystem = new Filesystem();
 
                 try {
-                    $filesystem->remove($this->getParameter('kernel.project_dir') . "public/images/artist/$oldFilename");
+                    $filesystem->remove($this->getParameter('kernel.project_dir') . "/public/images/artist/$oldFilename");
                 } catch (IOExceptionInterface $exception) {
                     echo "An error occurred while deleting your file: " . $exception->getPath();
                 }
