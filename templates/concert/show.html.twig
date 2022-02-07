@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Concert{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Concert</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>{{ "content.concert.labels.name"|trans }}</th>
+                    <td>{{ concert.name }}</td>
+                </tr>
+                <tr>
+                    <th>{{ "content.concert.labels.date"|trans }}</th>
+                    <td>{{ concert.date ? concert.date|date('Y-m-d H:i') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>{{ "content.concert.labels.capacity"|trans }}</th>
+                    <td>{{ concert.capacity }}</td>
+                </tr>
+                <tr>
+                    <th>{{ "content.concert.labels.venue"|trans }}</th>
+                    <td>{{ concert.venue.name }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row">
+            {% if concert.bands|length > 0 %}
+                <p>{{ "content.concert.show.groups.list"|trans }}</p>
+                    {% for band in concert.bands %}
+                        <div class="col-sm-3">
+                            <div class="card">
+                                <img src="{{ asset('images/placeholderArtist.png') }}" class="card-img-top" alt="Picture of {{ band.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ band.name }}</h5>
+                                    <p class="card-text">Créé le {{ band.creationDate|date('d-m-Y') }}</p>
+                                    <a href="{{ path("band_show", {id: band.id}) }}" class="btn btn-primary">Voir le groupe</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+            {% else %}
+                <p>{{ "content.concert.show.groups.none"|trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Band index{% endblock %}
+
+{% block body %}
+    <h1>{{ "content.band.show.title"|trans }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ "content.band.labels.name"|trans }}</th>
+                <th>{{ "content.band.labels.creation"|trans }}</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for band in bands %}
+            <tr>
+                <td>{{ band.name }}</td>
+                <td>{{ band.creationDate ? band.creationDate|date('d-m-Y') : '' }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('band_show', {'id': band.id}) }}" role="button"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('band_edit', {'id': band.id}) }}" role="button"><i class="bi bi-pencil"></i></a>
+                    {% include('band/_delete_form.html.twig') %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

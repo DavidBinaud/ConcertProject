@@ -1,0 +1,87 @@
+navbar:
+    concerts:
+        to_come: Concerts à venir
+        passed: Anciens concerts
+    crud:
+        entities:
+            artist: Artistes
+            band: Groupes
+            concert: Concerts
+        actions:
+            list: Lister
+            create: Créer
+    auth:
+        login: Connexion
+        logout: Deconnexion
+        register: Créer un Compte
+        profile: Profil
+        welcome: Bonjour
+
+grammar:
+    is: est
+    are: sont
+
+forms:
+    save: Enregistrer
+    delete: Supprimer
+
+content:
+    concert:
+        name: concert
+        plural: concerts
+        labels:
+            name: nom
+            date: date
+            capacity: capacité
+            venue: salle
+        next:
+            title: Prochain concerts
+            schedule_one: programmé
+            schedule_multiple: programmés
+        previous:
+            title: Ancien concerts
+        show:
+            title: Tout les groupes
+            groups:
+                list: Liste des groupes participant
+                none: Aucun groupe ne participe au concert
+    profile:
+        edit: Editer son compte
+        password_edit: Changer de mot de passe
+        delete: Supprimer son compte
+
+    artist:
+        name: artiste
+        plural: artistes
+        labels:
+            name: nom
+            scene_name: nom de scène
+            birthdate: date de naissance
+        show:
+            title: Tout les artistes
+
+    band:
+        name: groupe
+        plural: groupes
+        labels:
+            name: nom
+            creation: date de création
+        show:
+            title: Tous les groupes
+
+
+
+
+paginate:
+    previous: Précédent
+    next: Suivant
+
+
+footer:
+    infos:
+        address: Adresse
+        phone: Téléphone
+        inaug: Inauguration
+    links:
+        name: Liens
+        paloma: Site web de Paloma

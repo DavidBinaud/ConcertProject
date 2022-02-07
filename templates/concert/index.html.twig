@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Concert index{% endblock %}
+
+{% block body %}
+    <h1>{{ "content.concert.show.title"|trans }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ "content.concert.labels.name"|trans }}</th>
+                <th>{{ "content.concert.labels.date"|trans }}</th>
+                <th>{{ "content.concert.labels.capacity"|trans }}</th>
+                <th>{{ "content.concert.labels.venue"|trans }}</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for concert in concerts %}
+            <tr>
+                <td>{{ concert.name }}</td>
+                <td>{{ concert.date ? concert.date|date('d-m-Y') : '' }}</td>
+                <td>{{ concert.capacity }}</td>
+                <td>{{ concert.venue.name }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('concert_show', {'id': concert.id}) }}" role="button"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('concert_edit', {'id': concert.id}) }}" role="button"><i class="bi bi-pencil"></i></a>
+                    {% include('concert/_delete_form.html.twig') %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

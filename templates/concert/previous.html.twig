@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Concert index{% endblock %}
+
+{% block body %}
+    <h1>{{ "content.concert.previous.title"|trans }}</h1>
+
+    {% include("concert/table.html.twig") %}
+{% endblock %}

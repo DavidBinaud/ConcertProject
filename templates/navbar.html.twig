@@ -1,0 +1,80 @@
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ path('main') }}">
+                <img src="{{ asset('images/boombox-fill.svg') }}" alt="Brand-Icon" width="30" height="24" class="d-inline-block align-text-top">
+                Concerto
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if app.request.attributes.get('_route') == "concert_next" %}active{% endif %}" href="{{ path('concert_next') }}">{{ "navbar.concerts.to_come"|trans }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if app.request.attributes.get('_route') == "concert_previous" %}active{% endif %}" href="{{ path('concert_previous') }}">{{ "navbar.concerts.passed"|trans }}</a>
+                    </li>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if app.request.attributes.get('_route') matches '{artist.*}' %}active{% endif %}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ "navbar.crud.entities.artist"|trans }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ path('artist_index') }}">{{ "navbar.crud.actions.list"|trans }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('artist_new') }}">{{ "navbar.crud.actions.create"|trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if app.request.attributes.get('_route') matches '{band.*}' %}active{% endif %}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ "navbar.crud.entities.band"|trans }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ path('band_index') }}">{{ "navbar.crud.actions.list"|trans }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('band_new') }}">{{ "navbar.crud.actions.create"|trans }}</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {% if app.request.attributes.get('_route') matches '{concert_.*}' and app.request.attributes.get('_route') != "concert_next" and app.request.attributes.get('_route') != "concert_previous" %}active{% endif %}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ "navbar.crud.entities.concert"|trans }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ path('concert_index') }}">{{ "navbar.crud.actions.list"|trans }}</a></li>
+                                <li><a class="dropdown-item" href="{{ path('concert_new') }}">{{ "navbar.crud.actions.create"|trans }}</a></li>
+                            </ul>
+                        </li>
+
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0 d-flex">
+                    {% if app.user %}
+                        <span class="navbar-text fw-bold">
+                          {{ "navbar.auth.welcome"|trans }} {{ app.user.firstName }}
+                        </span>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') matches '{profile.*}' %}active{% endif %}" href="{{ path('profile_show') }}">{{ "navbar.auth.profile"|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_logout') }}">{{ "navbar.auth.logout"|trans }}</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+
+                            <a class="nav-link {% if app.request.attributes.get('_route') == "app_login" %}active{% endif %}" href="{{ path('app_login') }}">{{ "navbar.auth.login"|trans }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if app.request.attributes.get('_route') == "app_register" %}active{% endif %}" href="{{ path('app_register') }}">{{ "navbar.auth.register"|trans }}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                {% for locale in locales %}
+                    {% if locale != app.request.locale %}
+                        <a class="nav-link" href="{{ path('change_locale',
+                            {'locale': locale}) }}">{{ locale }} <i class="bi bi-translate"></i></a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+</div>

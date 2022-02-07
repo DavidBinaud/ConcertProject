@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Concert index{% endblock %}
+
+{% block body %}
+    <h1>{{ "content.concert.next.title"|trans }}</h1>
+    <div>{{ count }} {% if count > 1 %}{{ "content.concert.plural"|trans }} {{ "grammar.are"|trans }} {{ "content.concert.next.schedule_multiple"|trans }}{% else %}{{ "content.concert.name"|trans }} {{ "grammar.is"|trans }} {{ "content.concert.next.schedule_one"|trans }}{% endif %}</div>
+    {% include("concert/table.html.twig") %}
+    {% if concerts|length > 0 %}
+        {% include('concert/paginate.html.twig') %}
+    {% endif %}
+{% endblock %}

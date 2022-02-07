@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ band.name }}{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Le groupe {{ band.name }}</h1>
+        {% if band.creationDate%}
+            <p>Il a été créé le {{ band.creationDate|date('d/m/Y') }}</p>
+        {% else %}
+            <p>Sa date de création est inconnue</p>
+        {% endif %}
+
+        {% if band.getArtists|length == 0 %}
+            <p>composé d'aucun membres</p>
+        {% else %}
+            <p>composé de {{ band.getArtists|length }}
+            {% if band.artists|length == 1 %}
+                membre qui est
+            {% else %}
+                membres qui sont
+            {% endif %}
+                :</p>
+        {% endif %}
+        <div class="row">
+            {% for artist in band.artists %}
+                <div class="col-sm-3">
+                    <div class="card">
+                        <img src="{{ asset('images/placeholderArtist.png') }}" class="card-img-top" alt="Picture of {{ artist.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ artist.name }}</h5>
+                            <p class="card-text">Né le {{ artist.birthDate|date('d-m-Y') }}</p>
+                            <a href="{{ path("artist_show", {id: artist.getId()}) }}" class="btn btn-primary">Voir l'artiste</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% if concerts|length > 0 %}
+                <p>Liste des prochains concerts du groupe</p>
+                <ul>
+                    {% for concert in concerts %}
+                        <li><a href="{{ path("concert_show", {id: concert.id}) }}">{{ concert.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucun concert de prévu prochainement</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

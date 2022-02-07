@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artist index{% endblock %}
+
+{% block body %}
+    <h1>{{ "content.artist.show.title"|trans }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{{ "content.artist.labels.name"|trans }}</th>
+                <th>{{ "content.artist.labels.scene_name"|trans }}</th>
+                <th>{{ "content.artist.labels.birthdate"|trans }}</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for artist in artists %}
+            <tr>
+                <td>{{ artist.name }}</td>
+                <td>{{ artist.sceneName }}</td>
+                <td>{{ artist.birthDate ? artist.birthDate|date('d/m/Y') : '' }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('artist_show', {'id': artist.id}) }}" role="button"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-primary" href="{{ path('artist_edit', {'id': artist.id}) }}" role="button"><i class="bi bi-pencil"></i></a>
+                    {% include('artist/_delete_form.html.twig') %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

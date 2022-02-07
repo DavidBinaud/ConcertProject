@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ artist.name }}{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>L'artiste {{ artist.name }}</h1>
+        {% if artist.pictureFilename %}
+            <img src="{{ asset("images/artist/#{artist.pictureFilename}") }}" class="img-fluid" alt="{{ artist.name }}_picture">
+        {% endif %}
+        <p>Son nom de scène est {{ artist.sceneName }}, il est né le {{ artist.birthDate|date('d-m-Y') }}</p>
+        {% if artist.bands|length > 0 %}
+            {% if artist.bands|length > 1 %}
+                <p>Il fait partie de ces groupes:</p>
+            {% else %}
+                <p>Il fait parti du groupe:</p>
+            {% endif %}
+            <div class="row">
+                {% for band in artist.bands %}
+                    <div class="col-sm-3">
+                        <div class="card">
+                            <img src="{{ asset('images/placeholderArtist.png') }}" class="card-img-top" alt="Picture of {{ band.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ band.name }}</h5>
+                                <a href="{{ path("band_show", {id: band.getId()}) }}" class="btn btn-primary">Voir le groupe</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Cet artiste ne fait partie d'aucun groupe</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,85 @@
+navbar:
+    concerts:
+        to_come: Next concerts
+        passed: Old concerts
+    crud:
+        entities:
+            artist: Artists
+            band: Bands
+            concert: Concerts
+        actions:
+            list: List
+            create: Create new
+    auth:
+        login: Login
+        logout: Login
+        register: Register
+        profile: Profile
+        welcome: Hello
+
+grammar:
+    is: is
+    are: are
+
+forms:
+    save: Save
+    delete: Delete
+
+content:
+    concert:
+        name: concert
+        plural: concerts
+        labels:
+            name: name
+            date: date
+            capacity: capacity
+            venue: venue
+        next:
+            title: Next concerts
+            schedule_one: scheduled
+            schedule_multiple: scheduled
+        previous:
+            title: Old concert
+        show:
+            title: All the concerts
+            groups:
+                list: List of concert's groups
+                none: No group are affected to the concert
+    profile:
+        edit: Edit account
+        password_edit: Change password
+        delete: Delete account
+
+    artist:
+        name: artist
+        plural: artists
+        labels:
+            name: name
+            scene_name: scene name
+            birthdate: Birth date
+        show:
+            title: All the artists
+
+    band:
+        name: band
+        plural: bands
+        labels:
+            name: name
+            creation: Creation date
+        show:
+            title: All the bands
+
+
+paginate:
+    previous: Previous
+    next: Next
+
+
+footer:
+    infos:
+        address: Address
+        phone: Phone number
+        inaug: Inauguration Date
+    links:
+        name: Links
+        paloma: Paloma's website
