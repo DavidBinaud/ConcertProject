@@ -27,24 +27,30 @@
             </tbody>
         </table>
 
-        <div class="row">
-            {% if concert.bands|length > 0 %}
-                <p>{{ "content.concert.show.groups.list"|trans }}</p>
+        <div class="container px-4 py-5" id="custom-cards">
+            {% if concert.bands|length == 0 %}
+                <h2 class="pb-2 border-bottom">{{ "content.concert.show.groups.none"|trans }}</h2>
+            {% else %}
+                <h2 class="pb-2 border-bottom">{{ "content.concert.show.groups.list"|trans }}</h2>
+                <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
                     {% for band in concert.bands %}
-                        <div class="col-sm-3">
-                            <div class="card">
-                                <img src="{{ asset('images/placeholderArtist.png') }}" class="card-img-top" alt="Picture of {{ band.name }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ band.name }}</h5>
-                                    <p class="card-text">Créé le {{ band.creationDate|date('d-m-Y') }}</p>
-                                    <a href="{{ path("band_show", {id: band.id}) }}" class="btn btn-primary">Voir le groupe</a>
+                        <div class="col">
+                            <div class="card custom-card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg bg-primary" style="background-image: url('{{ asset('images/band/' ~ band.id ~ '.jpg') }}');">
+                                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                    <a href="{{ path("band_show", {id: band.id}) }}"><h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ band.name }}</h2></a>
+                                    <ul class="d-flex list-unstyled mt-auto">
+                                        <li class="d-flex align-items-center">
+                                            <i class="bi bi-calendar3"></i>
+                                            <small>{{ band.creationDate|date('d-m-Y') }}</small>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     {% endfor %}
-            {% else %}
-                <p>{{ "content.concert.show.groups.none"|trans }}</p>
+                </div>
             {% endif %}
         </div>
+
     </div>
 {% endblock %}

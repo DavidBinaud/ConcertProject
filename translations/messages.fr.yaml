@@ -34,6 +34,7 @@ content:
             date: date
             capacity: capacité
             venue: salle
+            numberGroup: nombre de groupes
         next:
             title: Prochain concerts
             schedule_one: programmé
@@ -41,7 +42,7 @@ content:
         previous:
             title: Ancien concerts
         show:
-            title: Tout les groupes
+            title: Tous les concerts
             groups:
                 list: Liste des groupes participant
                 none: Aucun groupe ne participe au concert
@@ -68,6 +69,10 @@ content:
             creation: date de création
         show:
             title: Tous les groupes
+    login:
+        title: Page de connexion
+    register:
+        title: Création d'un compte
 
 
 

@@ -1,3 +1,9 @@
 label.required::after {
     content: '*';
 }
+
+.custom-card-cover{
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}

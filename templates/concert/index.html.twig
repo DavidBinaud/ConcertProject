@@ -12,6 +12,7 @@
                 <th>{{ "content.concert.labels.date"|trans }}</th>
                 <th>{{ "content.concert.labels.capacity"|trans }}</th>
                 <th>{{ "content.concert.labels.venue"|trans }}</th>
+                <th>{{ "content.concert.labels.numberGroup"|trans }}</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +23,7 @@
                 <td>{{ concert.date ? concert.date|date('d-m-Y') : '' }}</td>
                 <td>{{ concert.capacity }}</td>
                 <td>{{ concert.venue.name }}</td>
+                <td>{{ concert.bands|length }}</td>
                 <td>
                     <a class="btn btn-primary" href="{{ path('concert_show', {'id': concert.id}) }}" role="button"><i class="bi bi-eye"></i></a>
                     <a class="btn btn-primary" href="{{ path('concert_edit', {'id': concert.id}) }}" role="button"><i class="bi bi-pencil"></i></a>

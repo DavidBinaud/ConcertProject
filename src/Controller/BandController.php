@@ -58,8 +58,7 @@ class BandController extends AbstractController
     public function show(Band $band): Response
     {
         return $this->render('band/show.html.twig', [
-            'band' => $band,
-            'concerts' => $this->getDoctrine()->getRepository(Concert::class)->findAllNextOfBand($band->getId())
+            'band' => $band
         ]);
     }
 

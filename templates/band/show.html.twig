@@ -26,7 +26,9 @@
             {% for artist in band.artists %}
                 <div class="col-sm-3">
                     <div class="card">
-                        <img src="{{ asset('images/placeholderArtist.png') }}" class="card-img-top" alt="Picture of {{ artist.name }}">
+                        {% if artist.pictureFilename %}
+                            <img src="{{ asset('images/artist' ~ artist.pictureFilename) }}" class="card-img-top" alt="Picture of {{ artist.name }}">
+                        {% endif %}
                         <div class="card-body">
                             <h5 class="card-title">{{ artist.name }}</h5>
                             <p class="card-text">Né le {{ artist.birthDate|date('d-m-Y') }}</p>
@@ -36,16 +38,36 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="row">
-            {% if concerts|length > 0 %}
-                <p>Liste des prochains concerts du groupe</p>
-                <ul>
-                    {% for concert in concerts %}
-                        <li><a href="{{ path("concert_show", {id: concert.id}) }}">{{ concert.name }}</a></li>
-                    {% endfor %}
-                </ul>
+        <div class="row"></div>
+
+
+        <div class="container px-4 py-5" id="custom-cards">
+            {% set next_concerts = band.concerts|filter(c => c.date|date('Y-m-d') > "now"|date('Y-m-d')) %}
+            {% if next_concerts|length == 0 %}
+                <h2 class="pb-2 border-bottom">Aucun concert de prévu prochainement</h2>
             {% else %}
-                <p>Aucun concert de prévu prochainement</p>
+                <h2 class="pb-2 border-bottom">Liste des prochains concerts du groupe</h2>
+                <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+                    {% for concert in next_concerts %}
+                        <div class="col">
+                            <div class="card custom-card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg" style="background-image: url('{{ asset('images/main_concert.jpg') }}');">
+                                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                    <a href="{{ path("concert_show", {id: concert.id}) }}"><h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ concert.name }}</h2></a>
+                                    <ul class="d-flex list-unstyled mt-auto">
+                                        <li class="d-flex align-items-center me-auto">
+                                            <i class="bi bi-geo-fill"></i>
+                                            <small>{{ concert.venue.name }}</small>
+                                        </li>
+                                        <li class="d-flex align-items-center">
+                                            <i class="bi bi-calendar3"></i>
+                                            <small>{{ concert.date|date('d-m-Y') }}</small>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             {% endif %}
         </div>
     </div>

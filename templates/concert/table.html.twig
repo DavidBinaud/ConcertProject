@@ -5,6 +5,7 @@
             <th>{{ "content.concert.labels.date"|trans }}</th>
             <th>{{ "content.concert.labels.capacity"|trans }}</th>
             <th>{{ "content.concert.labels.venue"|trans }}</th>
+            <th>{{ "content.concert.labels.numberGroup"|trans }}</th>
         </tr>
     </thead>
     <tbody>
@@ -14,10 +15,11 @@
                 <td>{{ concert.date ? concert.date|date('d-m-Y') : '' }}</td>
                 <td>{{ concert.capacity }}</td>
                 <td>{{ concert.venue.name }}</td>
+                <td>{{ concert.bands|length }}</td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
     </tbody>

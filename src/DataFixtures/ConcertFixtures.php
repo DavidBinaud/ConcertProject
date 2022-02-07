@@ -18,7 +18,7 @@ class ConcertFixtures extends Fixture implements DependentFixtureInterface
                     ->setName("$a 20$i")
                     ->setDate(\DateTime::createFromFormat("d/m/Y", rand(1,28) . '/' . rand(1,12) . "/20" . $i))
                     ->setVenue($this->getReference(VenueFixtures::VENUE_REF . rand(0,4)));
-                for ($j = 0; $j < rand(0,3); $j++) {
+                for ($j = 0; $j < rand(1,3); $j++) {
                     $concert->addBand($this->getReference(BandFixtures::BAND_REF . rand(0,8)));
                 }
                 $manager->persist($concert);

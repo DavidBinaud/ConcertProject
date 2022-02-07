@@ -34,6 +34,7 @@ content:
             date: date
             capacity: capacity
             venue: venue
+            numberGroup: number of groups
         next:
             title: Next concerts
             schedule_one: scheduled
@@ -68,6 +69,10 @@ content:
             creation: Creation date
         show:
             title: All the bands
+    login:
+        title: Login page
+    register:
+        title: Create an account
 
 
 paginate:
