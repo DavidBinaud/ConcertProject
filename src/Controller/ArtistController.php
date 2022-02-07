@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Band;
 use App\Entity\Artist;
 use App\Form\ArtistType;
 use App\Repository\ArtistRepository;
@@ -44,6 +45,7 @@ class ArtistController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($form->get('bands')->getData());
             $file = $form->get('picture')->getData();
             if ($file) {
                 $pictureFileName = $fileUploader->upload($file, 'artist');
@@ -51,8 +53,12 @@ class ArtistController extends AbstractController
             }
 
             $entityManager->persist($artist);
-            $entityManager->flush();
+            foreach ($form->get('bands')->getData() as $band){
+                $band->addArtist($artist);
+            }
 
+
+            $entityManager->flush();
 
             return $this->redirectToRoute('artist_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -89,7 +95,11 @@ class ArtistController extends AbstractController
                 $pictureFileName = $fileUploader->upload($file, 'artist');
                 $artist->setPictureFilename($pictureFileName);
             }
+            foreach ($form->get('bands')->getData() as $band){
+                $band->addArtist($artist);
+            }
             $entityManager->flush();
+
             if ($file) {
                 $filesystem = new Filesystem();
 

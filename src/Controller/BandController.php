@@ -47,7 +47,13 @@ class BandController extends AbstractController
                 $band->setPictureFilename($pictureFileName);
             }
 
+
             $entityManager->persist($band);
+            foreach ($form->get('concerts')->getData() as $concert){
+                $concert->addBand($band);
+            }
+
+
             $entityManager->flush();
 
             return $this->redirectToRoute('band_index', [], Response::HTTP_SEE_OTHER);
@@ -79,6 +85,11 @@ class BandController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($form->get('concerts')->getData() as $concert){
+                $concert->addBand($band);
+            }
+
+
             $entityManager->flush();
 
             return $this->redirectToRoute('band_index', [], Response::HTTP_SEE_OTHER);
