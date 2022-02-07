@@ -6,6 +6,7 @@ use App\Entity\Band;
 use App\Entity\Concert;
 use App\Form\BandType;
 use App\Repository\BandRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,13 +34,19 @@ class BandController extends AbstractController
      * @Route("/new", name="band_new", methods={"GET", "POST"})
      * @isGranted("ROLE_ADMIN")
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $band = new Band();
         $form = $this->createForm(BandType::class, $band);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('picture')->getData();
+            if ($file) {
+                $pictureFileName = $fileUploader->upload($file, 'band');
+                $band->setPictureFilename($pictureFileName);
+            }
+
             $entityManager->persist($band);
             $entityManager->flush();
 

@@ -90,13 +90,14 @@ class ArtistController extends AbstractController
                 $artist->setPictureFilename($pictureFileName);
             }
             $entityManager->flush();
+            if ($file) {
+                $filesystem = new Filesystem();
 
-            $filesystem = new Filesystem();
-
-            try {
-                $filesystem->remove($this->getParameter('kernel.project_dir'));
-            } catch (IOExceptionInterface $exception) {
-                echo "An error occurred while deleting your file: ".$exception->getPath();
+                try {
+                    $filesystem->remove($this->getParameter('kernel.project_dir') . "public/images.artist/$pictureFileName");
+                } catch (IOExceptionInterface $exception) {
+                    echo "An error occurred while deleting your file: " . $exception->getPath();
+                }
             }
 
             return $this->redirectToRoute('artist_index', [], Response::HTTP_SEE_OTHER);

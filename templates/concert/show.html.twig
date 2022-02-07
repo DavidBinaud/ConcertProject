@@ -35,7 +35,7 @@
                 <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
                     {% for band in concert.bands %}
                         <div class="col">
-                            <div class="card custom-card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg bg-primary" style="background-image: url('{{ asset('images/band/' ~ band.id ~ '.jpg') }}');">
+                            <div class="card custom-card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg bg-primary" style="background-image: url('{% if band.pictureFilename %}{{ asset('images/band/' ~ band.pictureFilename) }}{% else %}{{ asset('images/band/' ~ band.id ~ '.jpg') }}{% endif %}');">
                                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                                     <a href="{{ path("band_show", {id: band.id}) }}"><h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ band.name }}</h2></a>
                                     <ul class="d-flex list-unstyled mt-auto">

@@ -4,6 +4,11 @@
 
 {% block body %}
     <div>
+        {% if band.pictureFilename %}
+            <img src="{{ asset('images/band/' ~ band.pictureFilename) }}" class="img-fluid" alt="band_picture">
+        {% else %}
+            <img src="{{ asset('images/band/' ~ band.id ~ '.jpg') }}" class="img-fluid" alt="band_picture">
+        {% endif %}
         <h1>Le groupe {{ band.name }}</h1>
         {% if band.creationDate%}
             <p>Il a été créé le {{ band.creationDate|date('d/m/Y') }}</p>
